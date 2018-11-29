@@ -603,10 +603,10 @@ static UniValue getblocktemplatecommon(bool lightVersion, const Config &config,
             "Error: Peer-to-peer functionality missing or disabled");
     }
 
-    // if (g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0) {
-    //     throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
-    //                        "Bitcoin is not connected!");
-    // }
+    if (g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0) {
+        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
+                           "Bitcoin is not connected!");
+    }
 
     if (IsInitialBlockDownload()) {
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
