@@ -365,6 +365,32 @@ void ClearDatadirCache() {
     pathCachedNetSpecific = fs::path();
 }
 
+fs::path GetblocktemplatelightDataDir()
+{
+    const fs::path datadir = GetDataDir();
+    const std::string gbtStoreDirStr = gArgs.GetArg("-gbtstoredir", datadir.string() + "/gbt/");
+    const fs::path gbtStoreDir = fs::system_complete(gbtStoreDirStr);
+    const fs::path gbtStoreTrashDir = fs::system_complete(gbtStoreDirStr + "/trash/");
+    if(!fs::exists(gbtStoreDir))
+        fs::create_directories(gbtStoreDir);
+    return gbtStoreDir;
+}
+
+fs::path GetblocktemplatelightDataTrashDir()
+{
+    auto gbtStoreTrashDir = GetblocktemplatelightDataDir();
+    gbtStoreTrashDir += "trash/";
+    if(!fs::exists(gbtStoreTrashDir))
+        fs::create_directories(gbtStoreTrashDir);
+    return gbtStoreTrashDir;
+}
+
+int GetblocktemplatelightCacheSize()
+{
+    int cacheSize = gArgs.GetArg("-gbtcachesize", 10);
+    return cacheSize;
+}
+
 fs::path GetConfigFile(const std::string &confPath) {
     fs::path pathConfigFile(confPath);
     if (!pathConfigFile.is_complete())
